@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "Droopy",
+    "database": "database_development_lsf_gestion",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "Droopy",
+    "database": "database_test_lsf_gestion",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "Droopy",
+    "database": "database_production_lsf_gestion",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
