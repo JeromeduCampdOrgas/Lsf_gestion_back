@@ -8,18 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      nom: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      prenom: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      email: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
+      nom: { allowNull: false, type: Sequelize.STRING },
+      prenom: { allowNull: false, type: Sequelize.STRING },
+      email: { allowNull: false, type: Sequelize.STRING },
       n_rue: {
         allowNull: true,
         type: Sequelize.STRING,
@@ -36,15 +27,12 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING,
       },
-      password: {
-        allowNull: false,
+      tel: {
+        allowNull: true,
         type: Sequelize.STRING,
       },
-      role: {
-        allowNull: false,
-        type: Sequelize.STRING,
-        defaultValue: "user",
-      },
+      role: { allowNull: false, type: Sequelize.STRING, defaultValue: "user" },
+      password: { allowNull: false, type: Sequelize.STRING },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

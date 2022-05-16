@@ -3,7 +3,7 @@ const helmet = require("helmet");
 //const dotenv = require('dotenv').config();
 const path = require("path");
 const userRoutes = require("./routes/user");
-//const messageRoutes = require("./routes/message");
+const refugeRoutes = require("./routes/refuge");
 //const likeRoutes = require("./routes/like");
 
 const app = express();
@@ -28,7 +28,7 @@ app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use("/api/", userRoutes);
-//app.use("/api/", messageRoutes);
+app.use("/api/", refugeRoutes);
 //app.use("/api/", likeRoutes);
 
 module.exports = app;
