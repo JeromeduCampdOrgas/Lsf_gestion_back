@@ -160,3 +160,22 @@ exports.deleteAccount = async (req, res) => {
     return res.status(500).send({ error: "Erreur serveur" });
   }
 };
+
+exports.getOneUser = async (req, res) => {
+  const userId = req.params.id;
+
+  await models.User.findOne({
+    attributes: ["id", "email", "nom", "prenom", "role"],
+    where: { id: userId },
+  })
+    .then(function (user) {
+      if (user) {
+        res.status(201).json(user);
+      } else {
+        res.status(404).json({ error: "user not found" });
+      }
+    })
+    .catch(function (err) {
+      res.status(500).json({ error: "cannot fetch user" });
+    });
+};

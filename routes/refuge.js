@@ -5,8 +5,8 @@ const refugeCtrl = require("../controllers/refuge");
 const multer = require("../middleware/multer-refuges");
 
 router.post("/refuge", multer, refugeCtrl.createRefuge); //
-//router.get("/refuge", refugeCtrl.getAllRefuge); //auth,
-//router.get("/refuge/:name", refugeCtrl.getOneRefuge);
-//router.put("/refuge/:id", multer, refugeCtrl.updateRefuge);
-//router.delete("/refuge/:id", multer, refugeCtrl.deleteRefuge);
+router.get("/refuges", refugeCtrl.getAllRefuge); //auth,
+router.get("/refuge/:nom", refugeCtrl.getOneRefuge);
+router.put("/refuge/:id", multer, refugeCtrl.updateRefuge);
+router.delete("/refuge/:id", multer, refugeCtrl.deleteRefuge);
 module.exports = router;
