@@ -4,7 +4,7 @@ const helmet = require("helmet");
 const path = require("path");
 const userRoutes = require("./routes/user");
 const refugeRoutes = require("./routes/refuge");
-//const likeRoutes = require("./routes/like");
+const chienRoutes = require("./routes/chien");
 
 const app = express();
 
@@ -29,6 +29,6 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use("/api/", userRoutes);
 app.use("/api/", refugeRoutes);
-//app.use("/api/", likeRoutes);
+app.use("/api/", chienRoutes);
 
 module.exports = app;

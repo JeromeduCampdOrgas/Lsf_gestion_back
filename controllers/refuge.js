@@ -61,7 +61,6 @@ module.exports = {
   },
   updateRefuge: function (req, res) {
     let name = req.body.nom;
-
     let refugeId = req.params.id;
     console.log(refugeId);
 
