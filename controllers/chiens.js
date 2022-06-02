@@ -3,7 +3,8 @@ const { json } = require("body-parser");
 const fs = require("fs");
 const express = require("express");
 const path = require("path");
-const chemin = process.cwd() + "/images/chienCarousel";
+//const chemin = process.cwd() + "/images/chienCarousel";
+
 //("c:/users/ducam/onedrive/bureau/lsf/lsf_back/images/chienCarousel");
 
 const MIME_TYPES = {
@@ -150,7 +151,7 @@ module.exports = {
     let chienId = req.params.chienId;
     console.log(chienId);
     try {
-      const carousel = await models.ChienCarousel.findAll({
+      const carousel = await models.chiencarousel.findAll({
         where: { chienId: chienId },
       });
 
@@ -162,20 +163,24 @@ module.exports = {
   chiensCarouselSuppr: function (req, res) {
     let imageId = req.params.id;
     {
-      models.ChienCarousel.findOne({
-        where: { id: imageId },
-      }).then((image) => {
-        let chaine = image.images;
-        let debut = chaine.indexOf("IMG");
-        let fin = chaine.lastIndexOf(".JPG") + 4;
-        let longueur = fin - debut;
-        let newChaine = chaine.substr(debut, longueur);
-        /************************* */
-
-        fs.unlink(`${chemin}/${newChaine}`, () => {
-          models.ChienCarousel.destroy({
-            where: { id: imageId },
-          })
+      const carousel = models.chiencarousel
+        .findOne({
+          where: { id: imageId },
+        })
+        .then((image) => {
+          let chaine = image.images;
+          let debut = chaine.indexOf("IMG");
+          let fin = chaine.lastIndexOf(".JPG") + 4;
+          let longueur = fin - debut;
+          let newChaine = chaine.substr(debut, longueur);
+          let nom = image.nom;
+          const dest = `images/chiens/chienCarousel/${nom}`;
+          /************************* */
+          fs.unlinkSync(`${dest}/${newChaine}`);
+          models.chiencarousel
+            .destroy({
+              where: { id: imageId },
+            })
             .then(() => res.status(200).json({ message: "Objet supprimé !" }))
             .catch((error) =>
               res
@@ -183,7 +188,6 @@ module.exports = {
                 .json({ error: "Impossible de supprimer le message" })
             );
         });
-      });
     }
   },
   deleteChien: async function (req, res) {

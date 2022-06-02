@@ -52,7 +52,8 @@ exports.login = async (req, res) => {
     if (user === null) {
       return res.status(403).json({ error: "Connexion échouée" });
     } else {
-      const hash = bcrypt.compare(req.body.password, user.password); // on compare les mots de passes
+      const hash = await bcrypt.compare(req.body.password, user.password); // on compare les mots de passes
+
       if (!hash) {
         return res.status(401).json({ error: "Mot de passe incorrect !" });
       } else {
