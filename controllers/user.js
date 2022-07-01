@@ -86,7 +86,18 @@ exports.getAllUsers = async (req, res) => {
   // on envoie tous les users sauf admin
   try {
     const users = await models.User.findAll({
-      attributes: ["nom", "id", "email", "role", "n_rue", "rue", "cp", "ville"],
+      attributes: [
+        "nom",
+        "prenom",
+        "id",
+        "email",
+        "role",
+        "n_rue",
+        "rue",
+        "cp",
+        "ville",
+        "tel",
+      ],
     });
     res.status(200).send(users);
   } catch (error) {
@@ -96,6 +107,7 @@ exports.getAllUsers = async (req, res) => {
 
 exports.updateAccount = async (req, res) => {
   // modifier le profil
+
   const id = req.params.id;
 
   try {
@@ -105,7 +117,7 @@ exports.updateAccount = async (req, res) => {
     const isAdmin = decodedToken.role;
 
     let user = await models.User.findOne({ where: { id: id } }); // on trouve le user
-    if (userId === user.id || isAdmin === user.role) {
+    if (userId === user.id || isAdmin === "admin") {
       if (req.body.nom) {
         user.nom = req.body.nom;
       }
@@ -118,13 +130,38 @@ exports.updateAccount = async (req, res) => {
       if (req.body.tel) {
         user.tel = req.body.tel;
       }
+      if (req.body.n_rue) {
+        user.n_rue = req.body.n_rue;
+      }
+      if (req.body.rue) {
+        user.rue = req.body.rue;
+      }
+      if (req.body.cp) {
+        user.cp = req.body.cp;
+      }
+      if (req.body.ville) {
+        user.ville = req.body.ville;
+      }
+      if (req.body.role) {
+        user.role = req.body.role;
+      }
       if (req.body.password) {
         const hash = await bcrypt.hash(req.body.password, 10);
         user.password = hash;
       }
 
       const newUser = await user.save({
-        fields: ["nom", "prenom", "email", "tel", "password"],
+        fields: [
+          "nom",
+          "prenom",
+          "email",
+          "tel",
+          "n_rue",
+          "rue",
+          "cp",
+          "ville",
+          "role",
+        ],
       });
 
       // on sauvegarde les changements dans la bdd
@@ -144,16 +181,20 @@ exports.updateAccount = async (req, res) => {
 
 exports.deleteAccount = async (req, res) => {
   try {
+    console.log(req.params.id);
     const id = req.params.id;
+
     const token = req.headers.authorization.split(" ")[1];
+
     const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
     const userId = decodedToken.userId;
     const isAdmin = decodedToken.role;
 
-    let user = await models.User.findOne({ where: { id: userId } }); // on trouve le user
-    if (userId === user.id || isAdmin === user.role) {
+    let user = await models.User.findOne({ where: { id: id } }); // on trouve le user
+
+    if (userId === user.id || isAdmin === "admin") {
       {
-        models.User.destroy({ where: { id: userId } }); // on supprime le compte
+        models.User.destroy({ where: { id: id } }); // on supprime le compte
         res.status(200).json({ messageRetour: "utilisateur supprimé" });
       }
     }
