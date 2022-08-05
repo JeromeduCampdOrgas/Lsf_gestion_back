@@ -7,10 +7,13 @@ const { config } = require("dotenv");
 module.exports = {
   createRefuge: function (req, res) {
     let nom = req.body.nom;
+    console.log(req.body);
     let attachmentURL = `${req.protocol}://${req.get(
       "host"
     )}/images/refuges/${nom}/${req.file.filename}`;
-
+    let localite = req.body.localite;
+    let latitude = req.body.latitude;
+    let longitude = req.body.longitude;
     models.Refuge.findOne({
       attributes: ["nom"],
       where: { nom: nom },
@@ -19,6 +22,9 @@ module.exports = {
         models.Refuge.create({
           nom: nom,
           logo: attachmentURL,
+          localite: localite,
+          latitude: latitude,
+          longitude: longitude,
         })
           .then((newRefuge) => {
             res
@@ -34,7 +40,7 @@ module.exports = {
   getAllRefuge: async function (req, res) {
     try {
       const refuges = await models.Refuge.findAll({
-        attributes: ["id", "nom", "logo"],
+        attributes: ["id", "nom", "localite", "logo", "latitude", "longitude"],
       });
       res.status(200).send(refuges);
     } catch (error) {
@@ -45,7 +51,7 @@ module.exports = {
     const refugeNom = req.params.nom;
 
     await models.Refuge.findOne({
-      attributes: ["nom", "logo"],
+      attributes: ["nom", "localite", "logo"],
       where: { nom: refugeNom },
     })
       .then(function (refuge) {
@@ -61,9 +67,11 @@ module.exports = {
   },
   updateRefuge: function (req, res) {
     let name = req.body.nom;
+    let localite = req.body.localite;
+    let latitude = req.body.latitude;
+    let longitude = req.body.longitude;
     let refugeId = req.params.id;
-    console.log(refugeId);
-
+    console.log(req.body);
     if (req.file) {
       let attachmentURL = `${req.protocol}://${req.get(
         "host"
@@ -71,6 +79,9 @@ module.exports = {
       models.Refuge.update(
         {
           nom: name,
+          localite: localite,
+          latitude: latitude,
+          longitude: longitude,
           logo: attachmentURL,
         },
         {
@@ -87,6 +98,9 @@ module.exports = {
       models.Refuge.update(
         {
           nom: name,
+          localite: localite,
+          latitude: latitude,
+          longitude: longitude,
         },
         {
           where: {

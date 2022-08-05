@@ -79,7 +79,7 @@ exports.login = async (req, res) => {
       }
     }
   } catch (error) {
-    return res.status(500).json({ error: "Erreur serveur" });
+    return res.status(500).json({ error: "Nouvelle Erreur serveur" });
   }
 };
 exports.getAllUsers = async (req, res) => {

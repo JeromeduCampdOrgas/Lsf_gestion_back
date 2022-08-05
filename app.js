@@ -1,10 +1,11 @@
 const express = require("express");
 const helmet = require("helmet");
-//const dotenv = require('dotenv').config();
+//const dotenv = require("dotenv").config();
 const path = require("path");
 const userRoutes = require("./routes/user");
 const refugeRoutes = require("./routes/refuge");
 const chienRoutes = require("./routes/chien");
+const statutsRoutes = require("./routes/dogStatut");
 
 const app = express();
 
@@ -30,5 +31,6 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/api/", userRoutes);
 app.use("/api/", refugeRoutes);
 app.use("/api/", chienRoutes);
+app.use("/api/", statutsRoutes);
 
 module.exports = app;

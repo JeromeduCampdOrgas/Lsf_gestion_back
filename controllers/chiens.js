@@ -15,27 +15,34 @@ const MIME_TYPES = {
 
 module.exports = {
   createChien: function (req, res) {
-    let refuge = req.body.refuge;
     let name = req.body.nom;
     let puce = req.body.puce;
+    let naissance = req.body.naissance;
     let sexe = req.body.sexe;
-    let age = req.body.age;
     let taille = req.body.taille;
-    let chat = req.body.chat;
+    let sante = req.body.sante;
+    let commentaires = req.body.commentaires;
+    let refuge = req.body.refuge;
     let statut = req.body.statut;
+    let localisation = req.body.localisation;
+    let department = req.body.department;
+    //let chat = req.body.chat;
     let attachmentURL = `${req.protocol}://${req.get(
       "host"
     )}/images/chiens/${name}/${req.file.filename}`;
-
+    console.log(attachmentURL);
     models.Chiens.create({
-      refuge: refuge,
       nom: name,
       puce: puce,
+      naissance: naissance,
       sexe: sexe,
-      age: age,
       taille: taille,
-      chats: chat,
+      sante: sante,
+      commentaires: commentaires,
+      refuge: refuge,
       statut: statut,
+      localisation: localisation,
+      department: department,
       imageUrl: attachmentURL,
     })
       .then((newChien) => {
@@ -46,29 +53,38 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   updateChien: function (req, res) {
-    console.log("on est là");
+    console.log(req.body);
     let chienId = parseInt(req.params.id);
     let refuge = req.body.refuge;
     let nom = req.body.nom;
     let puce = req.body.puce;
     let sexe = req.body.sexe;
-    let age = req.body.age;
+    let naissance = req.body.naissance;
     let taille = req.body.taille;
-    let chat = req.body.chat;
+    //let chat = req.body.chat;
     let statut = req.body.statut;
+    let commentaires = req.body.commentaires;
+    let department = req.body.department;
+    let sante = req.body.sante;
+    let localisation = req.body.localisation;
     let attachmentURL = `${req.protocol}://${req.get(
       "host"
     )}/images/chiens/${nom}/${req.file.filename}`;
+    console.log(attachmentURL);
     if (!req.file) {
       models.Chiens.update(
         {
           nom: nom,
           puce: puce,
           sexe: sexe,
-          age: age,
+          naissance: naissance,
           taille: taille,
-          chat: chat,
+          //chat: chat,
+          sante: sante,
           refuge: refuge,
+          commentaires: commentaires,
+          department: department,
+          localisation: localisation,
           statut: statut,
         },
         { where: { id: chienId } }
@@ -83,11 +99,14 @@ module.exports = {
           nom: nom,
           puce: puce,
           sexe: sexe,
-          age: age,
+          naissance: naissance,
           taille: taille,
-          chat: chat,
+          //chat: chat,
           refuge: refuge,
           statut: statut,
+          sante: sante,
+          localisation: localisation,
+          commentaires: commentaires,
           imageUrl: attachmentURL,
         },
         { where: { id: chienId } }

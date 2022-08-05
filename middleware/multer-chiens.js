@@ -2,17 +2,19 @@ const multer = require("multer");
 const models = require("../models");
 const fs = require("fs");
 const { json } = require("body-parser");
+const path = require("path");
 
 const MIME_TYPES = {
   "image/jpg": "jpg",
   "image/jpeg": "jpg",
   "image/png": "png",
+  "image/webp": "webp",
 };
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     //const refuge = req.body.refuge;
-
+    console.log(req.file);
     const dest = "images/chiens/" + req.body.nom;
     fs.open(dest, function (error) {
       if (error) {
